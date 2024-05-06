@@ -1,9 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
+var cors = require('cors')
 const app = express()
 const port = 8080
 require('dotenv').config()
 const Book = require('./book')
+
+app.use(cors())
 
 mongoose.connect(process.env.MONGODB_KEY, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log('connected to MongoDB....'))
@@ -20,6 +23,7 @@ app.post('/books', async (req, res) => {
     let book = new Book({ title: req.body.title, author: req.body.author})
     book = await book.save()
     res.send(book)
+    console.log('All books called');
 })
 
 //get all books
